@@ -24,11 +24,3 @@ main {
     margin: 1rem;
 }
 
-footer {
-    background: #333;
-    color: #fff;
-    padding: 1rem;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-}
