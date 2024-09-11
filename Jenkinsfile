@@ -11,7 +11,7 @@ pipeline {
     }
 
     stages {
-        stage('Clone Repository') {
+        stage('Checkout') {
             steps {
                 script {
                     // Use Jenkins' SSH Agent plugin to inject SSH credentials
@@ -22,6 +22,22 @@ pipeline {
                         // Execute the SSH command
                         sh "${sshCommand}"
                     }
+                }
+            }
+        }
+         stage('Deploy') {
+            steps {
+                script {
+                    // Define the deployment commands to execute on the EC2 instance
+                    def deployCommand = """
+                        ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} <<EOF
+                        sudo mv /home/${EC2_USER}/Jenkins /var/www/html/
+                        sudo systemctl reload httpd
+                        EOF
+                    """
+                    
+                    // Execute the deployment commands
+                    sh "${deployCommand}"
                 }
             }
         }
