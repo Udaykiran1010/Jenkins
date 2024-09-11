@@ -17,7 +17,14 @@ pipeline {
                     // Use Jenkins' SSH Agent plugin to inject SSH credentials
                     sshagent([SSH_CREDENTIALS_ID]) {
                         // Define the SSH command to execute on the EC2 instance
-                        def sshCommand = "ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} 'git clone ${GIT_REPO}'"
+                        def sshCommand = """
+                        ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} 'git clone ${GIT_REPO}
+                        ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} <<EOF
+                        sudo mv /home/${EC2_USER}/Jenkins /var/www/html/
+                        sudo systemctl reload httpd
+                        EOF
+                        """
+
                         
                         // Execute the SSH command
                         sh "${sshCommand}"
