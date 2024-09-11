@@ -27,6 +27,7 @@ pipeline {
                         def deployCommand = """
                             ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} '
                             sudo mv /home/${EC2_USER}/Jenkins/* /var/www/html/ &&
+                            sudo rmdir /home/${EC2_USER}/Jenkins &&
                             sudo systemctl reload httpd
                             '
                         """
