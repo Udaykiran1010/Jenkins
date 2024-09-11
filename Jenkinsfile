@@ -25,21 +25,5 @@ pipeline {
                 }
             }
         }
-         stage('Deploy') {
-            steps {
-                script {
-                    // Define the deployment commands to execute on the EC2 instance
-                    def deployCommand = """
-                        ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} <<EOF
-                        sudo mv /home/${EC2_USER}/Jenkins /var/www/html/
-                        sudo systemctl reload httpd
-                        EOF
-                    """
-                    
-                    // Execute the deployment commands
-                    sh "${deployCommand}"
-                }
-            }
-        }
     }
 }
