@@ -18,7 +18,7 @@ pipeline {
                     sshagent([SSH_CREDENTIALS_ID]) {
                         // Define the SSH command to execute on the EC2 instance
                         def sshCommand = """
-                        ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} 'git clone ${GIT_REPO}
+                        ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} 'git clone ${GIT_REPO}'
                         ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} <<EOF
                         sudo mv /home/${EC2_USER}/Jenkins /var/www/html/
                         sudo systemctl reload httpd
